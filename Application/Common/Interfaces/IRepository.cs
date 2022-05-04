@@ -9,6 +9,7 @@ namespace Application.Common.Interfaces
 {
     public interface IRepository<T> where T : class, IEntity
     {
+        IUnitOfWork<T> UnitOfWork { get; }
         Task AddAsync(T entity);
         Task AddAsync(IEnumerable<T> entities);
         void Update(T entity);

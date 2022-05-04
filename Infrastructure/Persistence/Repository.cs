@@ -11,9 +11,20 @@ namespace Infrastructure.Persistence
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity
     {
+        private readonly AppDbContext _context;
         DbSet<T> Table { get; set; }
+
+        public IUnitOfWork<T> UnitOfWork
+        {
+            get
+            {
+                return (IUnitOfWork<T>)_context;
+            }
+        }
+
         public Repository(AppDbContext context)
         {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
             Table = context.Set<T>();
         }
 

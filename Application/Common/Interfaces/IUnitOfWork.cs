@@ -6,7 +6,6 @@ namespace Application.Common.Interfaces
 {
     public interface IUnitOfWork<T>: IDisposable where T : class, IEntity
     {
-        IRepository<T> Repository { get; }
         Task Commit();
         void Rollback();
     }
