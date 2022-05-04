@@ -1,20 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Windows.Input;
 
 namespace Application.Brands.Commands.CreateBrand
 {
-    public class CreateBrandCommand : ICommand
+    public class CreateBrandCommand : IRequest<int>
     {
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Execute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
+        public Guid id { get; set; }
+        public string brandName { get; set; }
+        public string? shortName { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using Application.Brands.Commands.UpdateBrand;
 using Application.Brands.Commands.DeleteBrand;
 using Application.Common.Interfaces;
 using Application.Brands.Queries.GetBrands;
+using MediatR;
 
 namespace WEBAPI.Controllers
 {
@@ -14,30 +15,22 @@ namespace WEBAPI.Controllers
     [Route("[controller]")]
     public class BrandController : Controller
     {
-        private ICommandHandler<CreateBrandCommand> _createCommandHandler { get; init; }
-        private ICommandHandler<UpdateBrandCommand> _updateCommandHandler { get; init; }
-        private ICommandHandler<DeleteBrandCommand> _deleteCommandHandler { get; init; }
-        public BrandController(
-            ICommandHandler<CreateBrandCommand> createBrandHandler,
-            ICommandHandler<UpdateBrandCommand> updateCommandHandler,
-            ICommandHandler<DeleteBrandCommand> deleteCommandHandler
-            )
+        private readonly IMediator _mediator;
+        public BrandController(IMediator mediator)
         {
-            _createCommandHandler = createBrandHandler;
-            _updateCommandHandler = updateCommandHandler;
-            _deleteCommandHandler = deleteCommandHandler;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpPost]
         public ActionResult CreateBrand(CreateBrandCommand model)
         {
-            _createCommandHandler.Handle(model);
+            _mediator.Send(model);
             return Ok();
         }
         [HttpPut]
         public ActionResult UpdateBrand(UpdateBrandCommand model)
         {
-            _updateCommandHandler.Handle(model);
+            _mediator.Send(model);
             return Ok();
         }
         [HttpDelete]
@@ -51,7 +44,7 @@ namespace WEBAPI.Controllers
             [FromServices] IQueryHandler<GetBrandsQuery, BrandDto?> getBrandById,
             Guid brandId)
         {
-            return await getBrandById(GetBrandsQuery.With(brandId))
+            return await getBrandById(GetBrandsQuery.With(brandId.ToString()))
                 is { } brand
                 ? Results.Ok(brand)
                 : Results.NotFound();
