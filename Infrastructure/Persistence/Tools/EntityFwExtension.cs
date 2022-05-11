@@ -21,6 +21,15 @@ namespace Infrastructure.Persistence.Tools
                 .IsUnique()
                 .HasDatabaseName("IX_Brand");
 
+            modelBuilder.Entity<Brand>()
+                .Property(b => b.BarandName)
+                .HasMaxLength(150)
+                .IsRequired();
+
+            modelBuilder.Entity<Brand>()
+               .Property(b => b.ShortName)
+               .HasMaxLength(100);
+
             return modelBuilder;
         }
 

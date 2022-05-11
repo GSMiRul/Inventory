@@ -7,15 +7,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using System;
+using Domain.Common;
+using Domain.Common.Interfaces;
 
 namespace Infrastructure.Persistence
 {
     public class AppDbContext : DbContext, IAppDbContext
     {
         private readonly IMediator _mediator;
-        public AppDbContext(DbContextOptions options, IMediator mediator) : base(options) 
+        private readonly IDateTimeService _dateTimeService;
+        public AppDbContext(DbContextOptions options, IDateTimeService dateTimeService, IMediator mediator) : base(options) 
         {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _dateTimeService = dateTimeService;
         }
 
         public DbSet<Brand> Brands => Set<Brand>();
@@ -33,6 +38,20 @@ namespace Infrastructure.Persistence
 
         public async Task<int> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Modified:
+                        entry.Entity.Updated = _dateTimeService.NowUtc;
+                        break;
+                    case EntityState.Added:
+                        entry.Entity.Created = _dateTimeService.NowUtc;
+                        break;
+                    default:
+                        break;
+                }
+            }
             var result = await base.SaveChangesAsync(cancellationToken);
 
             await _mediator.DispatchEventsAsync(this);
