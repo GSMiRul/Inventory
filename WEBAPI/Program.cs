@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WEBAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseErrorrHandlingMiddleware();
 
 app.MapControllers();
 

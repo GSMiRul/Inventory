@@ -1,6 +1,7 @@
 ﻿using Application.Brands.Commands.CreateBrand;
 using Application.Common;
 using Application.Common.Interfaces;
+using Domain.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -12,15 +13,15 @@ using System.Threading.Tasks;
 
 namespace Application.Brands.EventHandlers.Brands
 {
-    public class AddNewBrandCommandHandler : IRequestHandler<CreateBrandCommand, RequestResponse<int>>
+    public class AddNewBrandCommandHandler : IRequestHandler<CreateBrandCommand, RequestResponse<string>>
     {
-        private readonly IAppDbContext _context;
-        public AddNewBrandCommandHandler(IAppDbContext context, IMediator mediator)
+        private readonly IWriteBaseRepository<Brand> _brandRepository;
+        public AddNewBrandCommandHandler(IWriteBaseRepository<Brand> brandRepository, IMediator mediator)
         {
-            _context = context;
+            _brandRepository = brandRepository;
         }
        
-        async Task<RequestResponse<int>> IRequestHandler<CreateBrandCommand, RequestResponse<int>>.Handle(CreateBrandCommand request, CancellationToken cancellationToken)
+        async Task<RequestResponse<string>> IRequestHandler<CreateBrandCommand, RequestResponse<string>>.Handle(CreateBrandCommand request, CancellationToken cancellationToken)
         {
             var brand = new Brand
             {
@@ -28,9 +29,10 @@ namespace Application.Brands.EventHandlers.Brands
                 ShortName = request.shortName,
                 Summary = request.summary
             };
-            RequestResponse<int> response = new RequestResponse<int>();
-            await _context.Brands.AddAsync(brand);
-            response.Container = await _context.SaveEntitiesAsync(cancellationToken);
+            RequestResponse<string> response = new RequestResponse<string>();
+            
+            Brand resp = await _brandRepository.AddAsync(brand);
+            response.Container = resp.Id != default ? resp.Id.ToString() : "";
 
             return response;
         }

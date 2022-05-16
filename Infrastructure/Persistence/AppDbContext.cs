@@ -14,16 +14,14 @@ namespace Infrastructure.Persistence
 {
     public class AppDbContext : DbContext, IAppDbContext
     {
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
         private readonly IDateTimeService _dateTimeService;
-        public AppDbContext(DbContextOptions options, IDateTimeService dateTimeService, IMediator mediator) : base(options) 
+        public AppDbContext(DbContextOptions<AppDbContext> options, IDateTimeService dateTimeService) : base(options) 
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            //_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _dateTimeService = dateTimeService;
         }
-
-        public DbSet<Brand> Brands => Set<Brand>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
@@ -54,7 +52,7 @@ namespace Infrastructure.Persistence
             }
             var result = await base.SaveChangesAsync(cancellationToken);
 
-            await _mediator.DispatchEventsAsync(this);
+            //await _mediator.DispatchEventsAsync(this);
 
             return result;
         }

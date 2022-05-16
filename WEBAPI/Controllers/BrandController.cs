@@ -36,7 +36,7 @@ namespace WEBAPI.Controllers
         [HttpDelete]
         public ActionResult DeleteBrand(DeleteBrandCommand model)
         {
-            _deleteCommandHandler.Handle(model);
+            //_deleteCommandHandler.Handle(model);
             return Ok();
         }
         [HttpGet]
@@ -44,15 +44,16 @@ namespace WEBAPI.Controllers
             [FromServices] IQueryHandler<GetBrandsQuery, BrandDto?> getBrandById,
             Guid brandId)
         {
-            return await getBrandById(GetBrandsQuery.With(brandId.ToString()))
+            /*return await getBrandById(GetBrandsQuery.With(brandId.ToString()))
                 is { } brand
                 ? Results.Ok(brand)
-                : Results.NotFound();
+                : Results.NotFound();*/
+            return Ok();
         }
         [HttpGet]
         public ActionResult GetBrands()
         {
-            _deleteCommandHandler.Handle(model);
+            //_deleteCommandHandler.Handle(model);
             return Ok();
         }
     }
