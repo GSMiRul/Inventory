@@ -1,6 +1,6 @@
 ﻿using WEBAPI.Middleware;
 
-namespace WEBAPI.Extensions
+namespace WEBAPI.Common.Extensions
 {
     public static class AppExts
     {

@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using Application.Common;
+using MediatR;
+using System;
 
 namespace Application.Brands.Commands.DeleteBrand
 {
-    public class DeleteBrandCommand : ICommand
+    public class DeleteBrandCommand : IRequest<RequestResponse<String>>
     {
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Execute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
+        public Guid Id { get; set; }
+        public string brandName { get; set; }
+        public string? shortName { get; set; }
+        public string? summary { get; set; }
     }
 }

@@ -1,14 +1,11 @@
-﻿using Infrastructure.Persistence.Tools;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
-using Application.Common.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
-using System;
+﻿using Application.Common.Interfaces;
 using Domain.Common;
 using Domain.Common.Interfaces;
+using Infrastructure.Persistence.Tools;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence
 {

@@ -1,7 +1,5 @@
 ﻿using Application.Common;
 using MediatR;
-using System;
-using System.Windows.Input;
 
 namespace Application.Brands.Commands.CreateBrand
 {

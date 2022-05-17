@@ -1,11 +1,7 @@
-﻿using Application.Brands.Commands.CreateBrand;
-using Application.Brands.EventHandlers.Brands;
-using Application.Common.Interfaces;
-using Domain.Common.Interfaces;
+﻿using Domain.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

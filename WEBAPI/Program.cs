@@ -1,9 +1,6 @@
 using Application.Common;
 using Infrastructure;
-using Infrastructure.Persistence;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using WEBAPI.Extensions;
+using WEBAPI.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddControllers();
-
+builder.Services.AddApiVersioningExt();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
