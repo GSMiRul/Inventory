@@ -1,6 +1,6 @@
 ﻿using Application.Brands.Commands.UpdateBrand;
-using Application.Common;
 using Application.Common.Mappings;
+using Application.Common.RequestResponses;
 using AutoMapper;
 using Domain.Common.Interfaces;
 using Domain.Entities;
@@ -9,16 +9,17 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Brands.EventHandlers
+namespace Application.Brands.EventHandlers.Write
 {
     public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, RequestResponse<string>>
     {
         private readonly IWriteBaseRepository<Brand> _brandRepository;
         private readonly IReadBaseRepository<Brand> _brandReadRepository;
         private readonly IMapper _mapper;
-        public UpdateBrandCommandHandler(IWriteBaseRepository<Brand> brandRepository, IMapper mapper)
+        public UpdateBrandCommandHandler(IWriteBaseRepository<Brand> brandRepository, IReadBaseRepository<Brand> brandReadRepository, IMapper mapper)
         {
             _brandRepository = brandRepository;
+            _brandReadRepository = brandReadRepository;
             _mapper = mapper;
         }
 

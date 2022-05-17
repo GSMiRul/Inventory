@@ -1,8 +1,8 @@
 ﻿using Application.Brands.Commands.CreateBrand;
 using Application.Brands.Commands.DeleteBrand;
 using Application.Brands.Commands.UpdateBrand;
+using Application.Brands.Queries.GetBrandById;
 using Application.Brands.Queries.GetBrands;
-using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using WEBAPI.Common;
 
@@ -39,22 +39,30 @@ namespace WEBAPI.v1.Controllers
                 return BadRequest();
             }
         }
-        [HttpGet]
-        public async Task<ActionResult> GetBrand(
-            [FromServices] IQueryHandler<GetBrandsQuery, BrandDto?> getBrandById,
-            Guid brandId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetBrand(string id)
         {
-            /*return await getBrandById(GetBrandsQuery.With(brandId.ToString()))
-                is { } brand
-                ? Results.Ok(brand)
-                : Results.NotFound();*/
-            return Ok();
+            Guid guidValue;
+
+            if (Guid.TryParse(id, out guidValue))
+            {
+                return Ok(await Mediator.Send(new GetBrandByIdQuery() { Id = guidValue }));
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         [HttpGet]
-        public ActionResult GetBrands()
+        public async Task<ActionResult> GetBrands([FromQuery] GetBrandsParameters filter)
         {
-            //_deleteCommandHandler.Handle(model);
-            return Ok();
+            return Ok( await Mediator.Send( new GetBrandsQuery
+            (
+                filter.Page,
+                filter.Size,
+                filter.BrandName,
+                filter.ShortName
+            )));
         }
     }
 }

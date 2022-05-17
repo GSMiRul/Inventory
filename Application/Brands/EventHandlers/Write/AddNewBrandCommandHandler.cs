@@ -1,6 +1,6 @@
 ﻿using Application.Brands.Commands.CreateBrand;
-using Application.Common;
 using Application.Common.Mappings;
+using Application.Common.RequestResponses;
 using AutoMapper;
 using Domain.Common.Interfaces;
 using Domain.Entities;
@@ -8,7 +8,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Brands.EventHandlers.Brands
+namespace Application.Brands.EventHandlers.Write
 {
     public class AddNewBrandCommandHandler : IRequestHandler<CreateBrandCommand, RequestResponse<string>>
     {

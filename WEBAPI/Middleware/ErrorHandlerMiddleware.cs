@@ -1,4 +1,4 @@
-﻿using Application.Common;
+﻿using Application.Common.RequestResponses;
 using System.Net;
 using System.Text.Json;
 

@@ -15,6 +15,13 @@ namespace Domain.Common.Interfaces
             string includeProperties = "",
             CancellationToken cancellationToken = default
             );
+        Task<IEnumerable<T>> GetPagedAsync(
+            Expression<Func<T, bool>> filter = null,
+            int page = 1,
+            int pageSize = 10,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = "",
+            CancellationToken cancellationToken = default);
         Task<int> CountAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default);
     }
 }

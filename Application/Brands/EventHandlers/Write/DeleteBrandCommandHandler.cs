@@ -1,5 +1,5 @@
 ﻿using Application.Brands.Commands.DeleteBrand;
-using Application.Common;
+using Application.Common.RequestResponses;
 using Domain.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
@@ -7,15 +7,16 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Brands.EventHandlers
+namespace Application.Brands.EventHandlers.Write
 {
     public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, RequestResponse<string>>
     {
         private readonly IWriteBaseRepository<Brand> _brandRepository;
         private readonly IReadBaseRepository<Brand> _brandReadRepository;
-        public DeleteBrandCommandHandler(IWriteBaseRepository<Brand> brandRepository)
+        public DeleteBrandCommandHandler(IWriteBaseRepository<Brand> brandRepository, IReadBaseRepository<Brand> brandReadRepository)
         {
             _brandRepository = brandRepository;
+            _brandReadRepository = brandReadRepository;
         }
 
         async Task<RequestResponse<string>> IRequestHandler<DeleteBrandCommand, RequestResponse<string>>.Handle(DeleteBrandCommand request, CancellationToken cancellationToken)

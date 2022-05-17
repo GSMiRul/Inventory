@@ -1,4 +1,4 @@
-﻿using Application.Common;
+﻿using Application.Common.RequestResponses;
 using MediatR;
 
 namespace Application.Brands.Commands.CreateBrand

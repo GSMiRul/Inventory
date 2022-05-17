@@ -1,5 +1,4 @@
-﻿using Application.Brands.Commands.DeleteBrand;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Application.Brands.Commands.DeleteBrand
 {

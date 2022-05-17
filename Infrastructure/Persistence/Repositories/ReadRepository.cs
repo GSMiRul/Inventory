@@ -52,5 +52,33 @@ namespace Infrastructure.Persistence.Repositories
                 return await query.ToListAsync(cancellationToken);
             }
         }
+        public virtual async Task<IEnumerable<T>> GetPagedAsync(
+            Expression<Func<T, bool>> filter = null,
+            int page = 1,
+            int pageSize = 10,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = "",
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<T> query = _entity;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+            if (orderBy != null)
+            {
+                return await orderBy(query).Skip(page).Take(pageSize).ToListAsync(cancellationToken);
+            }
+            else
+            {
+                return await query.Skip(page).Take(pageSize).ToListAsync(cancellationToken);
+            }
+        }
     }
 }
